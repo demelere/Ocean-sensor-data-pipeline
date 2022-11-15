@@ -1,3 +1,6 @@
+### To replicate:
+1. From project directory root run `docker-compose up` to start all services as containers
+
 ### Updates and notes:
 
 #### 11/15/22
