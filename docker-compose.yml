@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+  api:
+    container_name: api
+    hostname: api
+    build:
+      context: ./
+    image: waimea-bigwave-detector
+    command: >
+      bash -c "
+        pip install -e . &&
+        waimea:api
+      "
+    expose:
+      - 8080
+    volumes:
+      - ./:/waimea
+  monitor:
+    container_name: monitor
+    hostname: monitor
+    image: waimea-bigwave-detector
+    depends_on:
+      - api
+    command: >
+      bash -c "
+        pip install -e . &&
+        waimea:monitor
+      "
+    volumes:
+      - ./:/waimea
+    links:
+      - api
+  detector:
+    container_name: detector
+    hostname: detector
+    image: waimea-bigwave-detector
+    depends_on:
+      - api
+    command: >
+      bash -c "
+        pip install -e . &&
+        waimea:detector
+      "
+    volumes:
+      - ./:/waimea
+    links:
+      - api
+

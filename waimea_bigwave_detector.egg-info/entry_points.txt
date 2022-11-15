@@ -1,0 +1,5 @@
+[console_scripts]
+waimea:api = waimea.api:main
+waimea:detector = waimea.detector:main
+waimea:monitor = waimea.monitor:main
+
