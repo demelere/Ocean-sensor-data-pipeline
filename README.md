@@ -6,14 +6,15 @@
 #### 11/15/22
 
 Next steps: 
-- Deployment strategy for remote edge devices in the sea, and TinyML architectures for low power, long-lived deployments
+- Deployment strategy for remote edge devices in the sea, since over the air deployments are not feasible
+- Consider adapting TinyML model for acoustic wake words
+- Look into TinyML architectures that optimize for low power, long-lived deployments
 
 Data ingestion: 
 - I would explore using a time series database like TimeScaleDB or InfluxDB, which is very well-suited for IoT/sensor data patterns.  TimeScaleDB is built on top of PostgreSQL and benefits from its fault-tolerance and widely-used query language (which would help a data science team a lot).  I like the compiled environment of Golang for insert performance in InfluxDB, but have read that higher cardinality dimensions can cause a large drop-off.  
 - To deploy either of these, I would look into deploying it on a Docker image on AWS EC2, or on ECS (managed containers), or EKS (managed K8s).  AWS also has a managed time-series DB called Timestream, but as a NoSQL DB, its SQL queries are likely more limited than the native sorts of queries you can perform on TimeScaleDB/Postgres (complex joins, window functions, etc.).
 
 Integrating a neural network forecast duration of big wave sessions:
-- Forecast
 - I'd expose a new endpoint called `/forecast` that takes a POST http method in `api.py`.  I would include the trained and pickled model in the waimea directory and load it in the new `/forecast` endpoint in order to pass the POST request body data containing the input features to the model and return the prediction for wave duration.  Then I would add the new PyTorch/TensorFlow dependencies to `requires.txt`.  This way, a POST request to the `/forecast` endpoint could be made from anywhere (e.g. triggered by alerts) with the feature inputs.
 
 #### 11/9/22
